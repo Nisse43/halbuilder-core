@@ -3,7 +3,7 @@
 
     <groupId>com.theoryinpractise</groupId>
     <artifactId>halbuilder-core</artifactId>
-    <version>3.1.4-SNAPSHOT</version>
+    <version>3.1.4.openbeans</version>
     <description>Java based builder for the Hal specification http://stateless.co/hal_specification.html</description>
     <packaging>jar</packaging>
 
@@ -16,7 +16,12 @@
         <url>http://gotohal.net</url>
       <tag>HEAD</tag>
   </scm>
-
+  <repositories>
+    <repository>
+      <id>Localy installed</id>
+      <url>file://${user.home}/.m2/repository</url>
+    </repository>
+  </repositories>
     <developers>
         <developer>
             <id>talios</id>
@@ -46,6 +51,25 @@
     </distributionManagement>
 
     <profiles>
+    <profile>
+      <id>ivy-dependencies</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <file>
+          <exists>${basedir}/ivy-lib</exists>
+        </file>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>com.example.ivyimport</groupId>
+          <artifactId>openbeans</artifactId>
+          <version>1.0</version>
+          <scope>system</scope>
+          <systemPath>${ivy.target.lib.dir}/openbeans-1.0.jar</systemPath>
+        </dependency>
+      </dependencies>
+    </profile>
+
         <profile>
             <id>release</id>
             <activation>
@@ -59,6 +83,9 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -76,6 +103,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<ivy.target.lib.dir>${user.home}/.ivy2/local/com.googlecode/openbeans/1.0/jars</ivy.target.lib.dir>
    </properties>
 
     <build>
@@ -142,10 +170,15 @@
             <artifactId>guava</artifactId>
             <version>15.0</version>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.openbeans</groupId>
+            <artifactId>openbeans</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 </project>

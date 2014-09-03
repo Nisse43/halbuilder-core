@@ -138,7 +138,6 @@ public abstract class BaseRepresentation implements ReadableRepresentation {
     private List<Link> getNaturalLinks() {
         return FluentIterable.from(links).transform(new Function<Link, Link>() {
             @Nullable
-            @Override
             public Link apply(@Nullable Link link) {
                 return new Link(representationFactory, namespaceManager.currieHref(link.getRel()), link.getHref(), link.getName(), link.getTitle(), link.getHreflang(), link.getProfile());
             }
